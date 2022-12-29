@@ -1,8 +1,15 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   content: ["./src/**/*.{js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Noto Sans KR", ...defaultTheme.fontFamily.sans],
+        price: ["Black Han Sans"],
+      },
+    },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 };
