@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import {
   StarRounded,
   StarHalfRounded,
   StarOutlineRounded,
+  AddRounded,
+  RemoveRounded,
 } from "@mui/icons-material";
 
-const Stars = ({ rate }) => {
+const Stars = memo(({ rate }) => {
   return (
     <div className="mb-1">
       {Array.from({ length: 5 }).map((_, i) => {
@@ -33,21 +35,34 @@ const Stars = ({ rate }) => {
       })}
     </div>
   );
-};
+});
+Stars.displayName = "Stars";
 
 const ProductDetail = () => {
+  const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
 
-  const getProducts = async () => {
+  const getProduct = async () => {
     const res = await fetch("https://fakestoreapi.com/products/5").then((res) =>
       res.json()
     );
     setProduct(res);
   };
 
+  const onClickAdd = () => {
+    if (quantity + 1 > 10) return;
+    setQuantity((prev) => prev + 1);
+  };
+
+  const onClickRemove = () => {
+    if (quantity === 1) return;
+    setQuantity((prev) => prev - 1);
+  };
+
   useEffect(() => {
-    getProducts();
+    getProduct();
   }, []);
+
   return (
     <>
       {!!product ? (
@@ -59,7 +74,7 @@ const ProductDetail = () => {
               alt={product.title}
             />
           </div>
-          <div className="w-1/2 p-4">
+          <div className="w-1/2 py-4 pl-4 pr-8">
             <div className="text-lg font-bold text-[rgb(34,34,34)] md:text-xl">
               {product.title}
             </div>
@@ -70,8 +85,31 @@ const ProductDetail = () => {
               <Stars rate={product.rating.rate} />
               <div>Reviews({product.rating.count})</div>
             </div>
-            <div className="mt-3 font-price text-xl tracking-wider text-[rgb(34,34,34)] md:text-2xl">
-              ${product.price}
+            <div className="mt-3 flex justify-between">
+              <div className="font-price text-xl tracking-wider text-[rgb(34,34,34)] md:text-2xl">
+                ${product.price}
+              </div>
+              <div className="flex">
+                <div
+                  className="group cursor-pointer px-2"
+                  onClick={onClickRemove}
+                >
+                  <RemoveRounded className="mt-1 rounded-full transition-all group-hover:bg-[rgb(54,97,235)] group-hover:text-[rgb(240,240,240)]" />
+                </div>
+                <div className="mx-1 select-none align-middle font-price text-xl md:text-2xl">
+                  {quantity}
+                </div>
+                <div className="group cursor-pointer px-2" onClick={onClickAdd}>
+                  <AddRounded className="mt-1 rounded-full transition-all group-hover:bg-[rgb(54,97,235)] group-hover:text-[rgb(240,240,240)]" />
+                </div>
+              </div>
+            </div>
+            <div className="mt-2 h-[1px] w-full bg-[rgb(220,220,220)]"></div>
+            <div className="mt-2 flex justify-end gap-3">
+              <div className="self-end font-price md:text-lg">total</div>
+              <div className="font-price text-xl md:text-2xl">
+                ${product.price * quantity}
+              </div>
             </div>
             <div className="mt-4 flex h-10 gap-3">
               <button className="w-1/2 rounded-full border-2 border-solid border-[rgb(180,180,180)] transition-all hover:border-none hover:bg-[rgb(54,97,235)] hover:text-[rgb(240,240,240)]">
@@ -94,6 +132,7 @@ const ProductDetail = () => {
             <div className="h-6 animate-pulse rounded-full bg-slate-100"></div>
             <div className="h-6 animate-pulse rounded-full bg-slate-100"></div>
             <div className="mt-2 h-8 animate-pulse rounded-full bg-slate-100"></div>
+            <div className="mt-4 h-8 animate-pulse rounded-full bg-slate-100"></div>
             <div className="mt-2 flex h-10 gap-3">
               <div className="w-1/2 animate-pulse rounded-full bg-slate-100"></div>
               <div className="w-1/2 animate-pulse rounded-full bg-slate-100"></div>
