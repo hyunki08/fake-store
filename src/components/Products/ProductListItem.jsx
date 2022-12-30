@@ -8,6 +8,7 @@ const ProductListItem = ({ product }) => {
               className="object-contains max-h-[250px] scale-90 transition-all group-hover:scale-95"
               src={product.image}
               alt={product.title}
+              loading="lazy"
             />
           </div>
           <div className="mx-3 mt-3 flex h-1/3 flex-col gap-[2px]">
