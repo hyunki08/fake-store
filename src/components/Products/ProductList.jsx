@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Product from "./Product";
+import ProductListItem from "./ProductListItem";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -19,7 +19,7 @@ const ProductList = () => {
     <div className="grid w-full auto-rows-[1fr] grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
       {products.length > 0 &&
         products.map((product) => (
-          <Product key={product.id} product={product} />
+          <ProductListItem key={product.id} product={product} />
         ))}
     </div>
   );
