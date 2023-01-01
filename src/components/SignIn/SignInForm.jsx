@@ -1,4 +1,5 @@
 import { useState } from "react";
+import logo from "../../Assets/images/logo512.png";
 
 const SignInForm = () => {
   const [userId, setUserId] = useState("");
@@ -12,8 +13,10 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="shadow-gray min-h-[500px] max-w-[550px] overflow-hidden rounded-3xl px-4 py-4 shadow-lg">
-      <div className="h-[100px] w-full bg-slate-400"></div>
+    <div className="shadow-gray min-h-[500px] w-full max-w-[550px] overflow-hidden rounded-3xl px-4 py-4 shadow-lg">
+      <div className="flex h-[100px] w-full justify-center">
+        <img className="h-[100px] w-[100px] cursor-pointer" src={logo} alt="" />
+      </div>
       <div className="relative mt-12 h-[56px]">
         <input
           className="peer/id h-full w-full px-4 py-3 text-[rgb(34,34,34)] focus:outline-0"

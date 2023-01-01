@@ -1,6 +1,7 @@
 import { Instagram, Facebook, Twitter, YouTube } from "@mui/icons-material";
+import { memo } from "react";
 
-const Footer = () => {
+const Footer = memo(() => {
   return (
     <footer className="flex h-40 w-full justify-center bg-[rgb(34,34,34)] md:h-32">
       <div className="mx-auto flex w-full max-w-[1100px] flex-col gap-4 px-[2%] pt-8 md:flex-row">
@@ -26,6 +27,7 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+Footer.displayName = "Footer";
 
 export default Footer;

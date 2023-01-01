@@ -59,6 +59,8 @@ const ProductDetail = () => {
     setQuantity((prev) => prev - 1);
   };
 
+  // TODO : 장바구니에 이미 등록되어 있다면 장바구니 추가 X
+
   useEffect(() => {
     getProduct();
   }, []);
@@ -66,7 +68,7 @@ const ProductDetail = () => {
   return (
     <>
       {!!product ? (
-        <div className="shadow-gray flex min-h-[600px] overflow-hidden rounded-3xl shadow-lg">
+        <div className="shadow-gray flex min-h-[600px] w-full overflow-hidden rounded-3xl shadow-lg">
           <div className="flex w-1/2 items-center justify-center overflow-hidden bg-white">
             <img
               className="max-h-[550px] scale-75 object-contain"
@@ -125,7 +127,7 @@ const ProductDetail = () => {
           </div>
         </div>
       ) : (
-        <div className="shadow-gray flex min-h-[600px] rounded-3xl shadow-lg">
+        <div className="shadow-gray flex min-h-[600px] w-full rounded-3xl shadow-lg">
           <div className="w-1/2 animate-pulse bg-slate-100"></div>
           <div className="flex w-1/2 flex-col gap-2 p-4">
             <div className="h-7 animate-pulse rounded-full bg-slate-100"></div>
