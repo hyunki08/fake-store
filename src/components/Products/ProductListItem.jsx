@@ -6,7 +6,7 @@ const ProductListItem = ({ product }) => {
       {!!product ? (
         <Link
           to={`/product/${product.id}`}
-          className="shadow-gray group flex min-h-[400px] cursor-pointer flex-col overflow-hidden rounded-b-3xl shadow-lg transition-all hover:bg-[rgb(54,97,235)] hover:shadow-2xl"
+          className="shadow-gray group flex max-h-[400px] cursor-pointer flex-col overflow-hidden rounded-b-3xl shadow-lg transition-all hover:bg-[rgb(54,97,235)] hover:shadow-2xl"
         >
           <div className="flex h-2/3 justify-center overflow-hidden bg-white">
             <img
@@ -31,7 +31,7 @@ const ProductListItem = ({ product }) => {
           </div>
         </Link>
       ) : (
-        <div className="shadow-gray min-h-[400px] rounded-b-3xl shadow-lg">
+        <div className="shadow-gray max-h-[400px] rounded-b-3xl shadow-lg">
           <div className="h-2/3 max-h-[250px] animate-pulse bg-slate-100"></div>
           <div className="mx-3 mt-3 flex h-1/3 flex-col gap-[2px]">
             <div className="flex h-1/2 flex-col gap-1">

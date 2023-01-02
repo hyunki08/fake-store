@@ -1,9 +1,13 @@
 export const NavMenu = [
   { name: "All", path: "/", secondaryPath: "/products/all" },
-  { name: "Men", path: "/products/men" },
-  { name: "Women", path: "/products/women" },
-  { name: "Jewelery", path: "/products/jewelery" },
-  { name: "Electronics", path: "/products/electronics" },
+  { name: "Men", path: "/products/men", category: "men's clothing" },
+  { name: "Women", path: "/products/women", category: "women's clothing" },
+  { name: "Jewelery", path: "/products/jewelery", category: "jewelery" },
+  {
+    name: "Electronics",
+    path: "/products/electronics",
+    category: "electronics",
+  },
 ];
 
 export const Pages = [
