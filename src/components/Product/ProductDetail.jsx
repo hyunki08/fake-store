@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from "react";
+import { useState, memo } from "react";
 import {
   StarRounded,
   StarHalfRounded,
@@ -38,16 +38,8 @@ const Stars = memo(({ rate }) => {
 });
 Stars.displayName = "Stars";
 
-const ProductDetail = () => {
+const ProductDetail = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
-  const [product, setProduct] = useState(null);
-
-  const getProduct = async () => {
-    const res = await fetch("https://fakestoreapi.com/products/5").then((res) =>
-      res.json()
-    );
-    setProduct(res);
-  };
 
   const onClickAdd = () => {
     if (quantity + 1 > 10) return;
@@ -60,10 +52,6 @@ const ProductDetail = () => {
   };
 
   // TODO : 장바구니에 이미 등록되어 있다면 장바구니 추가 X
-
-  useEffect(() => {
-    getProduct();
-  }, []);
 
   return (
     <>
