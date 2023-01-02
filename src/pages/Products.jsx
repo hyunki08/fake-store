@@ -1,11 +1,11 @@
-import Layout from "../components/Layouts/Layout";
 import ProductList from "./../components/Products/ProductList";
 
 const Products = () => {
   return (
-    <Layout>
+    <>
+      <h2 className="blind">Product List</h2>
       <ProductList />
-    </Layout>
+    </>
   );
 };
 
