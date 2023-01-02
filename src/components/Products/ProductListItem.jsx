@@ -1,8 +1,13 @@
+import { Link } from "react-router-dom";
+
 const ProductListItem = ({ product }) => {
   return (
     <>
       {!!product ? (
-        <div className="shadow-gray group flex min-h-[400px] cursor-pointer flex-col overflow-hidden rounded-b-3xl shadow-lg transition-all hover:bg-[rgb(54,97,235)] hover:shadow-2xl">
+        <Link
+          to={`/product/${product.id}`}
+          className="shadow-gray group flex min-h-[400px] cursor-pointer flex-col overflow-hidden rounded-b-3xl shadow-lg transition-all hover:bg-[rgb(54,97,235)] hover:shadow-2xl"
+        >
           <div className="flex h-2/3 justify-center overflow-hidden bg-white">
             <img
               className="object-contains max-h-[250px] scale-90 transition-all group-hover:scale-95"
@@ -24,7 +29,7 @@ const ProductListItem = ({ product }) => {
               ${product.price}
             </div>
           </div>
-        </div>
+        </Link>
       ) : (
         <div className="shadow-gray min-h-[400px] rounded-b-3xl shadow-lg">
           <div className="h-2/3 max-h-[250px] animate-pulse bg-slate-100"></div>

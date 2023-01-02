@@ -1,18 +1,9 @@
-import { Pages, NavMenu } from "../constants/Nav";
+import { NavMenu } from "../constants/Nav";
 
-export const rootLoader = () => {
-  const info = Pages.find((v) => v.path === window.location.pathname);
-  if (!info) {
-    return { header: true, footer: true };
-  }
-  return { header: info.header, footer: info.footer };
-};
-
-export const productsLoader = (a) => {
+export const productsLoader = ({ request }) => {
+  const url = new URL(request.url);
   const exist = NavMenu.some(
-    (v) =>
-      v.path === window.location.pathname ||
-      v.secondaryPath === window.location.pathname
+    (v) => v.path === url.pathname || v.secondaryPath === url.pathname
   );
 
   if (!exist) {

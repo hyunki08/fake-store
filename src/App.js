@@ -16,8 +16,7 @@ const pagesInfo = Pages.reduce(
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
-    loader: rootLoader,
+    element: <Layout header footer />,
     errorElement: <Error />,
     children: [
       { index: true, element: <Products /> },
@@ -28,8 +27,12 @@ const router = createBrowserRouter([
       },
       { path: pagesInfo["Product"].path, element: <Product /> },
       { path: pagesInfo["Cart"].path, element: <Cart /> },
-      { path: pagesInfo["SignIn"].path, element: <SignIn /> },
     ],
+  },
+  {
+    path: pagesInfo["SignIn"].path,
+    element: <Layout />,
+    children: [{ index: true, element: <SignIn /> }],
   },
 ]);
 
