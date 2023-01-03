@@ -13,28 +13,31 @@ const pagesInfo = Pages.reduce(
   {}
 );
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout header footer />,
-    errorElement: <Error />,
-    children: [
-      { index: true, element: <Products /> },
-      {
-        path: pagesInfo["ProductsByCategory"].path,
-        loader: productsLoader,
-        element: <Products />,
-      },
-      { path: pagesInfo["Product"].path, element: <Product /> },
-      { path: pagesInfo["Cart"].path, element: <Cart /> },
-    ],
-  },
-  {
-    path: pagesInfo["SignIn"].path,
-    element: <Layout />,
-    children: [{ index: true, element: <SignIn /> }],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Layout header footer />,
+      errorElement: <Error />,
+      children: [
+        { index: true, element: <Products /> },
+        {
+          path: pagesInfo["ProductsByCategory"].path,
+          loader: productsLoader,
+          element: <Products />,
+        },
+        { path: pagesInfo["Product"].path, element: <Product /> },
+        { path: pagesInfo["Cart"].path, element: <Cart /> },
+      ],
+    },
+    {
+      path: pagesInfo["SignIn"].path,
+      element: <Layout />,
+      children: [{ index: true, element: <SignIn /> }],
+    },
+  ],
+  { basename: process.env.PUBLIC_URL }
+);
 
 function App() {
   return <RouterProvider router={router} />;

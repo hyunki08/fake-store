@@ -3,7 +3,9 @@ import { NavMenu } from "../constants/Nav";
 export const productsLoader = ({ request }) => {
   const url = new URL(request.url);
   const exist = NavMenu.some(
-    (v) => v.path === url.pathname || v.secondaryPath === url.pathname
+    (v) =>
+      `${process.env.PUBLIC_URL}${v.path}` === url.pathname ||
+      `${process.env.PUBLIC_URL}${v.secondaryPath}` === url.pathname
   );
 
   if (!exist) {
