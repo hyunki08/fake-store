@@ -96,15 +96,15 @@ const ProductDetail = ({ product }) => {
   return (
     <>
       {!!product ? (
-        <div className="shadow-gray flex min-h-[600px] w-full overflow-hidden rounded-3xl shadow-lg">
-          <div className="flex w-1/2 items-center justify-center overflow-hidden bg-white">
+        <div className="shadow-gray flex min-h-[600px] w-full flex-col overflow-hidden rounded-3xl shadow-lg md:flex-row">
+          <div className="flex items-center justify-center overflow-hidden bg-white md:w-1/2">
             <img
               className="max-h-[550px] scale-75 object-contain"
               src={product.image}
               alt={product.title}
             />
           </div>
-          <div className="w-1/2 py-4 pl-4 pr-8">
+          <div className="py-4 pl-4 pr-8 md:w-1/2">
             <div className="text-lg font-bold text-[rgb(34,34,34)] md:text-xl">
               {product.title}
             </div>
