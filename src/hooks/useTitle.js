@@ -5,11 +5,11 @@ const updateTitle = (title) => {
   htmlTitle.innerText = title;
 };
 
-export const useTitle = (iniitialTitle) => {
+export const useTitle = (iniitialTitle = "") => {
   const [title, setTitle] = useState(iniitialTitle);
 
   useEffect(() => {
-    updateTitle(title);
+    if (!!title) updateTitle(title);
   }, [title]);
 
   return setTitle;

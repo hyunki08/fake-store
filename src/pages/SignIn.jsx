@@ -2,6 +2,7 @@ import SignInForm from "../components/SignIn/SignInForm";
 import { useSessionStorage } from "./../hooks/useSessionStorage";
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetTitle } from "../hooks/useTitle";
 
 const SignIn = () => {
   const [_, setUser] = useSessionStorage("user", {});
@@ -11,6 +12,8 @@ const SignIn = () => {
   const [userPw, setUserPw] = useState("");
   const [pwInputError, setPwInputError] = useState(false);
   const navigate = useNavigate();
+
+  useSetTitle("Sign In");
 
   const onChangeId = useCallback((e) => {
     setIdInputError(false);

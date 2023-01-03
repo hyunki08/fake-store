@@ -2,11 +2,14 @@ import { useLocation, useParams } from "react-router-dom";
 import ProductList from "./../components/Products/ProductList";
 import { useEffect, useState } from "react";
 import { NavMenu } from "../constants/Nav";
+import { useSetTitle, useTitle } from "./../hooks/useTitle";
 
 const Products = () => {
   const location = useLocation();
   const { category } = useParams();
   const [products, setProducts] = useState([]);
+
+  useSetTitle("Fake Store");
 
   const getProductsAll = async () => {
     const res = await fetch("https://fakestoreapi.com/products").then((res) =>

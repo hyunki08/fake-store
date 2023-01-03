@@ -6,6 +6,7 @@ import Main from "./Main";
 const Layout = ({ header = false, footer = false }) => {
   return (
     <>
+      <h1 className="blind">Fake Store</h1>
       {header && <Header />}
       <Main header={header} footer={footer}>
         <Outlet />

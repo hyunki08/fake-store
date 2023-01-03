@@ -2,6 +2,7 @@ import { useState, useEffect, useLayoutEffect } from "react";
 import CartList from "../components/Cart/CartList";
 import { useSessionStorage } from "./../hooks/useSessionStorage";
 import { useLocalStorage } from "./../hooks/useLocalStorage";
+import { useSetTitle } from "./../hooks/useTitle";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -9,6 +10,8 @@ const Cart = () => {
   const username = !!user.username ? user.username : "";
   const [emptyUserCart, setEmptyUserCart] = useLocalStorage("cart_", []);
   const [cartData, setCartData] = useLocalStorage(`cart_${username}`, []);
+
+  useSetTitle("Cart");
 
   const getCartListData = async () => {
     const res = await Promise.allSettled(

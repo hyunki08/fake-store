@@ -1,7 +1,10 @@
 import { useRouteError } from "react-router-dom";
+import { useTitle } from "./../hooks/useTitle";
 
 const Error = () => {
   const error = useRouteError();
+
+  useTitle("Oops!");
 
   return (
     <div className="flex h-[80vh] w-screen flex-col items-center justify-center gap-3">
