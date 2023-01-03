@@ -1,11 +1,11 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Products from "./pages/Products";
 import Product from "./pages/Product";
 import SignIn from "./pages/SignIn";
 import Cart from "./pages/Cart";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./components/Layouts/Layout";
-import { productsLoader, rootLoader } from "./utils/routerLoaders";
+import Layout from "./components/layouts/Layout";
 import Error from "./pages/Error";
+import { productsLoader } from "./utils/routerLoaders";
 import { Pages } from "./constants/Nav";
 
 const pagesInfo = Pages.reduce(

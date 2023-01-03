@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import CartListItem from "./CartListItem";
+import Line from "../common/Line";
 
 const TEST = [
   { productId: 1, quantity: 2 },
@@ -141,7 +142,7 @@ const CartList = () => {
               ${products.length > 0 ? 5 : 0}
             </div>
           </div>
-          <div className="mt-3 h-[1px] w-full bg-[rgb(220,220,220)]"></div>
+          <Line className="mt-3" />
           <div className="mt-3 flex justify-between">
             <div className="font-price text-[rgb(34,34,34)] md:text-lg">
               total

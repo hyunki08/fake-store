@@ -6,6 +6,7 @@ import {
   AddRounded,
   RemoveRounded,
 } from "@mui/icons-material";
+import Button from "../common/Button";
 
 const Stars = memo(({ rate }) => {
   return (
@@ -102,12 +103,10 @@ const ProductDetail = ({ product }) => {
               </div>
             </div>
             <div className="mt-4 flex h-10 gap-3">
-              <button className="w-1/2 rounded-full border-2 border-solid border-[rgb(180,180,180)] transition-all hover:border-none hover:bg-[rgb(54,97,235)] hover:text-[rgb(240,240,240)]">
-                Add to Cart
-              </button>
-              <button className="w-1/2 rounded-full bg-[rgb(138,207,237)] transition-all hover:bg-[rgb(54,97,235)] hover:text-[rgb(240,240,240)]">
+              <Button className="w-1/2">Add to Cart</Button>
+              <Button className="w-1/2" filled>
                 Buy
-              </button>
+              </Button>
             </div>
             <div className="mt-4 text-[rgb(34,34,34)]">
               {product.description}

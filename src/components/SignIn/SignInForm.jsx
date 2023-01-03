@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../Assets/images/logo512.png";
+import logo from "./../../Assets/images/logo512.png";
+import Input from "../common/Input";
 
 const SignInForm = () => {
   const [userId, setUserId] = useState("");
@@ -25,34 +26,15 @@ const SignInForm = () => {
         </Link>
       </div>
       <div className="relative mt-12 h-[56px]">
-        <input
-          className="peer/id h-full w-full px-4 py-3 text-[rgb(34,34,34)] focus:outline-0"
-          type="text"
-          name="ID"
-          value={userId}
-          onChange={onChangeId}
-        />
-        <label className="absolute top-[-0.7rem] left-[1.05rem] select-none text-[rgb(180,180,180)] transition-all peer-focus/id:text-[rgb(100,100,100)]">
-          ID
-        </label>
-        <fieldset className="pointer-events-none absolute top-0 right-0 bottom-0 left-0 rounded-lg border-2 border-solid border-[rgb(180,180,180)] transition-all">
-          <legend className="peer- invisible ml-2 h-1 px-2">ID</legend>
-        </fieldset>
+        <Input type="text" name="ID" value={userId} onChange={onChangeId} />
       </div>
       <div className="relative mt-6 h-[56px]">
-        <input
-          className="peer/pw h-full w-full px-4 py-3 text-[rgb(34,34,34)] focus:outline-0"
+        <Input
           type="password"
           name="password"
           value={userPw}
           onChange={onChangePw}
         />
-        <label className="absolute top-[-0.7rem] left-[1.05rem] select-none text-[rgb(180,180,180)] transition-all peer-focus/pw:text-[rgb(100,100,100)]">
-          Password
-        </label>
-        <fieldset className="pointer-events-none absolute top-0 right-0 bottom-0 left-0 rounded-lg border-2 border-solid border-[rgb(180,180,180)] transition-all">
-          <legend className="invisible ml-2 h-1 px-2">Password</legend>
-        </fieldset>
       </div>
       <button className="mt-6 h-12 w-full rounded-full bg-[rgb(138,207,237)] transition-all hover:bg-[rgb(54,97,235)] hover:text-[rgb(240,240,240)] md:text-lg">
         Sign In
