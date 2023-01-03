@@ -29,7 +29,7 @@ const Header = () => {
       )?.name
     );
   }, [location.pathname]);
-  console.log(location);
+
   return (
     <header className="sticky top-0 z-10 w-full bg-white md:top-[-36px]">
       <div className="flex flex-col">
@@ -58,7 +58,9 @@ const Header = () => {
             {NavMenu.map((v) => (
               <Link
                 to={v.path}
-                className="cursor-pointer rounded-full p-3 transition-all hover:bg-[rgb(54,97,235)] hover:text-[rgb(240,240,240)]"
+                className={`cursor-pointer rounded-full p-3 transition-all hover:bg-[rgb(54,97,235)] hover:text-[rgb(240,240,240)] ${
+                  category === v.name ? "font-bold" : ""
+                }`}
                 key={v.path}
               >
                 {v.name}
@@ -66,7 +68,7 @@ const Header = () => {
             ))}
           </div>
           {category && (
-            <div className="flex items-center justify-center text-lg font-bold">
+            <div className="flex items-center justify-center text-lg font-bold md:hidden">
               {category}
             </div>
           )}
