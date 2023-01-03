@@ -1,7 +1,7 @@
 import { Menu, ShoppingCart } from "@mui/icons-material";
 import { NavMenu } from "../../constants/Nav";
-import logo from "../../Assets/images/logo512.png";
 import { Link } from "react-router-dom";
+import Logo from "./../common/Logo";
 
 const Header = () => {
   return (
@@ -20,9 +20,10 @@ const Header = () => {
           </div>
         </div>
         <nav className="mx-auto flex h-20 w-full max-w-[1100px] justify-between px-[2%] py-6 md:h-24">
-          <Link to={"/"} className="w-[64px] cursor-pointer px-2">
+          {/* <Link to={"/"} className="w-[64px] cursor-pointer px-2">
             <img src={logo} alt="" className="h-full object-contain" />
-          </Link>
+          </Link> */}
+          <Logo className="w-[64px] px-2" />
           <div className="hidden md:flex md:w-[calc(100%-252px)] md:justify-center md:gap-2">
             {NavMenu.map((v) => (
               <Link
