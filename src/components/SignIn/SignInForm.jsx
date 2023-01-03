@@ -25,7 +25,7 @@ const SignInForm = () => {
     setUserPw(e.target.value);
   }, []);
 
-  const handleSubmit = async (e) => {
+  const onClickSignIn = async (e) => {
     e.preventDefault();
 
     if (userId.length < 4) {
@@ -54,12 +54,16 @@ const SignInForm = () => {
     navigate(-1);
   };
 
+  const onClickSignUp = () => {
+    alert("Currently not available.");
+  };
+
   return (
     <div className="shadow-gray min-h-[500px] w-full max-w-[550px] overflow-hidden rounded-3xl px-4 py-4 shadow-lg">
       <div className="flex h-[100px] w-full justify-center">
         <Logo className="h-[100px] w-[100px]" />
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onClickSignIn}>
         <div className="relative mt-12 h-[56px]">
           <Input
             type="text"
@@ -83,7 +87,11 @@ const SignInForm = () => {
         </Button>
       </form>
       <Line className="mt-6" />
-      <Button className="mt-6 h-12 w-full" disabled={disabled}>
+      <Button
+        className="mt-6 h-12 w-full"
+        disabled={disabled}
+        onClick={onClickSignUp}
+      >
         Sign Up
       </Button>
     </div>
