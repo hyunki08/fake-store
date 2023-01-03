@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 const Header = () => {
   const [user, setUser] = useSessionStorage("user", {});
   const [open, setOpen] = useState(false);
+  const [category, setCategory] = useState("");
   const location = useLocation();
 
   const onClickSignOut = () => {
@@ -21,8 +22,14 @@ const Header = () => {
 
   useEffect(() => {
     setOpen(false);
+    setCategory(
+      NavMenu.find(
+        (v) =>
+          v.path === location.pathname || v.secondaryPath === location.pathname
+      )?.name
+    );
   }, [location.pathname]);
-
+  console.log(location);
   return (
     <header className="sticky top-0 z-10 w-full bg-white md:top-[-36px]">
       <div className="flex flex-col">
@@ -58,6 +65,11 @@ const Header = () => {
               </Link>
             ))}
           </div>
+          {category && (
+            <div className="flex items-center justify-center text-lg font-bold">
+              {category}
+            </div>
+          )}
           <div className="flex gap-3">
             <Link
               to={"/cart"}
