@@ -68,7 +68,7 @@ const CartListItem = ({
             <div className="mt-2 h-[1px] w-full bg-[rgb(220,220,220)]"></div>
             <div className="mt-2 flex justify-end gap-3">
               <div className="font-price text-lg md:text-xl">
-                ${product.price * product.quantity}
+                ${(product.price * product.quantity).toFixed(2)}
               </div>
             </div>
           </div>

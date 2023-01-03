@@ -1,76 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useEffect, useState } from "react";
 import CartListItem from "./CartListItem";
 import Line from "../common/Line";
-
-const TEST = [
-  { productId: 1, quantity: 2 },
-  { productId: 5, quantity: 10 },
-  { productId: 11, quantity: 1 },
-];
-
-const TEST_RES = [
-  {
-    id: 1,
-    title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-    price: 109.95,
-    description:
-      "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-    category: "men's clothing",
-    image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-    rating: {
-      rate: 3.9,
-      count: 120,
-    },
-    quantity: 2,
-  },
-  {
-    id: 5,
-    title:
-      "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
-    price: 695,
-    description:
-      "From our Legends Collection, the Naga was inspired by the mythical water dragon that protects the ocean's pearl. Wear facing inward to be bestowed with love and abundance, or outward for protection.",
-    category: "jewelery",
-    image: "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg",
-    rating: {
-      rate: 4.6,
-      count: 400,
-    },
-    quantity: 10,
-  },
-  {
-    id: 11,
-    title:
-      "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
-    price: 109,
-    description:
-      "3D NAND flash are applied to deliver high transfer speeds Remarkable transfer speeds that enable faster bootup and improved overall system performance. The advanced SLC Cache Technology allows performance boost and longer lifespan 7mm slim design suitable for Ultrabooks and Ultra-slim notebooks. Supports TRIM command, Garbage Collection technology, RAID, and ECC (Error Checking & Correction) to provide the optimized performance and enhanced reliability.",
-    category: "electronics",
-    image: "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg",
-    rating: {
-      rate: 4.8,
-      count: 319,
-    },
-    quantity: 1,
-  },
-];
+import { useSessionStorage } from "./../../hooks/useSessionStorage";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const CartList = () => {
   const [products, setProducts] = useState([]);
-  // TODO: 로컬스토리지로 변경
-  const cartData = useRef(TEST);
+  const [user, _] = useSessionStorage("user", {});
+  const username = !!user.username ? user.username : "";
+  const [emptyUserCart, setEmptyUserCart] = useLocalStorage("cart_", []);
+  const [cartData, setCartData] = useLocalStorage(`cart_${username}`, []);
 
   const getCartListData = async () => {
-    // const res = await Promise.allSettled(
-    //   cartData.current.map(
-    //     async (v) =>
-    //       await fetch(`https://fakestoreapi.com/products/${v.productId}`)
-    //         .then((res) => res.json())
-    //         .then((res) => ({ ...res, quantity: v.quantity }))
-    //   )
-    // ).then((res) => res.map((v) => v.value));
-    // setProducts(res);
-    setProducts(TEST_RES);
+    const res = await Promise.allSettled(
+      cartData.map(
+        async (v) =>
+          await fetch(`https://fakestoreapi.com/products/${v.productId}`)
+            .then((res) => res.json())
+            .then((res) => ({ ...res, quantity: v.quantity }))
+      )
+    ).then((res) => res.map((v) => v.value));
+    setProducts(res);
   };
 
   const onClickAdd = (id) => {
@@ -78,6 +28,14 @@ const CartList = () => {
     if (product.quantity + 1 > 10) return;
     product.quantity++;
     setProducts([...products.filter((v) => v.id !== id), product]);
+    setCartData(
+      cartData.map((v) => {
+        if (v.productId === id) {
+          v.quantity++;
+        }
+        return { ...v };
+      })
+    );
   };
 
   const onClickRemove = (id) => {
@@ -85,25 +43,42 @@ const CartList = () => {
     if (product.quantity === 1) return;
     product.quantity--;
     setProducts([...products.filter((v) => v.id !== id), product]);
+    setCartData(
+      cartData.map((v) => {
+        if (v.productId === id) {
+          v.quantity--;
+        }
+        return { ...v };
+      })
+    );
   };
 
   const onClickDeleteFromCart = (id) => {
+    const index = cartData.findIndex((v) => v.id !== id);
+    if (index === -1) return;
+    setCartData([...cartData.slice(0, index), ...cartData.slice(index + 1)]);
     setProducts([...products.filter((v) => v.id !== id)]);
-    cartData.current = cartData.current.filter((v) => v.productId !== id);
   };
 
+  useLayoutEffect(() => {
+    if (!!username && emptyUserCart.length > 0) {
+      setCartData((prev) => [...prev, ...emptyUserCart]);
+      setEmptyUserCart([]);
+    }
+  }, []);
+
   useEffect(() => {
-    if (cartData.current.length > 0) getCartListData();
+    if (cartData.length > 0) getCartListData();
   }, []);
 
   return (
-    <div className="shadow-gray flex min-h-[400px] flex-col rounded-3xl shadow-lg lg:flex-row">
+    <div className="shadow-gray flex min-h-[400px] w-full flex-col items-stretch rounded-3xl shadow-lg lg:flex-row">
       <div className="w-full px-6 pt-2 pb-10 lg:w-[calc(100%-380px)]">
         <div className="text-xl font-bold text-[rgb(34,34,34)] md:text-2xl">
-          Cart ({cartData.current.length})
+          Cart ({cartData.length || 0})
         </div>
         <div className="mt-2 flex flex-col gap-2">
-          {cartData.current.map((v) => (
+          {cartData.map((v) => (
             <CartListItem
               key={`${v.productId}_${v.quantity}`}
               product={
@@ -128,10 +103,12 @@ const CartList = () => {
             </div>
             <div className="font-price tracking-wider text-[rgb(34,34,34)] md:text-lg">
               $
-              {products.reduce(
-                (total, { price, quantity }) => (total += price * quantity),
-                0
-              )}
+              {products
+                .reduce(
+                  (total, { price, quantity }) => (total += price * quantity),
+                  0
+                )
+                .toFixed(2)}
             </div>
           </div>
           <div className="mt-2 flex justify-between">
@@ -149,10 +126,12 @@ const CartList = () => {
             </div>
             <div className="font-price tracking-wider text-[rgb(34,34,34)] md:text-xl">
               $
-              {products.reduce(
-                (total, { price, quantity }) => (total += price * quantity),
-                0
-              ) + (products.length > 0 ? 5 : 0)}
+              {(
+                products.reduce(
+                  (total, { price, quantity }) => (total += price * quantity),
+                  0
+                ) + (products.length > 0 ? 5 : 0)
+              ).toFixed(2)}
             </div>
           </div>
         </div>
