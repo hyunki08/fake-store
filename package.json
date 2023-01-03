@@ -1,5 +1,6 @@
 {
   "name": "fake-store",
+  "homepage": "https://hyunki08.github.io/fake-store",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,9 +15,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -39,6 +42,7 @@
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.2",
     "autoprefixer": "^10.4.13",
+    "gh-pages": "^4.0.0",
     "postcss-import": "^15.1.0",
     "prettier": "^2.8.1",
     "prettier-plugin-tailwindcss": "^0.2.1",
