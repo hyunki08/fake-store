@@ -1,86 +1,15 @@
-import { useLayoutEffect, useEffect, useState } from "react";
 import CartListItem from "./CartListItem";
 import Line from "../common/Line";
-import { useSessionStorage } from "./../../hooks/useSessionStorage";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
 import Button from "./../common/Button";
 
-const CartList = () => {
-  const [products, setProducts] = useState([]);
-  const [user, _] = useSessionStorage("user", {});
-  const username = !!user.username ? user.username : "";
-  const [emptyUserCart, setEmptyUserCart] = useLocalStorage("cart_", []);
-  const [cartData, setCartData] = useLocalStorage(`cart_${username}`, []);
-
-  const getCartListData = async () => {
-    const res = await Promise.allSettled(
-      cartData.map(
-        async (v) =>
-          await fetch(`https://fakestoreapi.com/products/${v.productId}`)
-            .then((res) => res.json())
-            .then((res) => ({ ...res, quantity: v.quantity }))
-      )
-    ).then((res) => res.map((v) => v.value));
-    setProducts(res);
-  };
-
-  const onClickAdd = (id) => {
-    const product = { ...products.find((v) => v.id === id) };
-    if (product.quantity + 1 > 10) return;
-    product.quantity++;
-    setProducts([...products.filter((v) => v.id !== id), product]);
-    setCartData(
-      cartData.map((v) => {
-        if (v.productId === id) {
-          v.quantity++;
-        }
-        return { ...v };
-      })
-    );
-  };
-
-  const onClickRemove = (id) => {
-    const product = { ...products.find((v) => v.id === id) };
-    if (product.quantity === 1) return;
-    product.quantity--;
-    setProducts([...products.filter((v) => v.id !== id), product]);
-    setCartData(
-      cartData.map((v) => {
-        if (v.productId === id) {
-          v.quantity--;
-        }
-        return { ...v };
-      })
-    );
-  };
-
-  const onClickDeleteFromCart = (id) => {
-    let index = cartData.findIndex((v) => v.productId === id);
-    if (index > -1)
-      setCartData([...cartData.slice(0, index), ...cartData.slice(index + 1)]);
-
-    index = products.findIndex((v) => v.id === id);
-    if (index > -1)
-      setProducts([...products.slice(0, index), ...products.slice(index + 1)]);
-  };
-
-  const onClickCheckout = () => {
-    alert("Your purchase has been processed.");
-    setCartData([]);
-    setProducts([]);
-  };
-
-  useLayoutEffect(() => {
-    if (!!username && emptyUserCart.length > 0) {
-      setCartData((prev) => [...prev, ...emptyUserCart]);
-      setEmptyUserCart([]);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (cartData.length > 0) getCartListData();
-  }, []);
-
+const CartList = ({
+  cartData,
+  products,
+  onClickAdd,
+  onClickRemove,
+  onClickDeleteFromCart,
+  onClickCheckout,
+}) => {
   return (
     <div className="shadow-gray flex min-h-[400px] w-full flex-col items-stretch rounded-3xl shadow-lg lg:flex-row">
       <div className="w-full px-6 pt-2 pb-10 lg:w-[calc(100%-380px)]">
