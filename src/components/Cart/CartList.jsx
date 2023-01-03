@@ -3,6 +3,7 @@ import CartListItem from "./CartListItem";
 import Line from "../common/Line";
 import { useSessionStorage } from "./../../hooks/useSessionStorage";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import Button from "./../common/Button";
 
 const CartList = () => {
   const [products, setProducts] = useState([]);
@@ -54,10 +55,19 @@ const CartList = () => {
   };
 
   const onClickDeleteFromCart = (id) => {
-    const index = cartData.findIndex((v) => v.id !== id);
-    if (index === -1) return;
-    setCartData([...cartData.slice(0, index), ...cartData.slice(index + 1)]);
-    setProducts([...products.filter((v) => v.id !== id)]);
+    let index = cartData.findIndex((v) => v.productId === id);
+    if (index > -1)
+      setCartData([...cartData.slice(0, index), ...cartData.slice(index + 1)]);
+
+    index = products.findIndex((v) => v.id === id);
+    if (index > -1)
+      setProducts([...products.slice(0, index), ...products.slice(index + 1)]);
+  };
+
+  const onClickCheckout = () => {
+    alert("Your purchase has been processed.");
+    setCartData([]);
+    setProducts([]);
   };
 
   useLayoutEffect(() => {
@@ -135,9 +145,13 @@ const CartList = () => {
             </div>
           </div>
         </div>
-        <button className="mt-6 h-12 w-full rounded-full bg-[rgb(138,207,237)] transition-all hover:bg-[rgb(54,97,235)] hover:text-[rgb(240,240,240)] md:text-lg">
+        <Button
+          className="mt-6 h-12 w-full md:text-lg"
+          filled
+          onClick={onClickCheckout}
+        >
           Checkout
-        </button>
+        </Button>
       </div>
     </div>
   );

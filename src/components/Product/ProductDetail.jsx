@@ -64,14 +64,15 @@ const ProductDetail = ({ product }) => {
     const index = cart.findIndex((v) => v.productId === product.id);
     if (index === -1) {
       setCart((prev) => [...prev, { productId: product.id, quantity }]);
+      alert("Added to cart.");
       return;
     }
     setCart(
       cart.map((v) => {
         if (v.productId === product.id) {
-          if (v.quantity + quantity) {
+          if (v.quantity + quantity > 10) {
             alert(
-              "You cannot purchase more than 10.\nOnly 10 will be added to the cart."
+              "You can't purchase more than 10.\nOnly 10 will be added to the cart."
             );
             v.quantity = 10;
           } else {
