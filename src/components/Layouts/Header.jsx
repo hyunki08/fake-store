@@ -8,6 +8,7 @@ const Header = () => {
   const [user, setUser] = useSessionStorage("user", {});
 
   const hadleSignOut = () => {
+    alert("You have been logged out.");
     setUser({});
   };
 
