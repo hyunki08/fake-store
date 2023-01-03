@@ -7,6 +7,8 @@ import {
   RemoveRounded,
 } from "@mui/icons-material";
 import Button from "../common/Button";
+import { useLocalStorage } from "./../../hooks/useLocalStorage";
+import { useSessionStorage } from "./../../hooks/useSessionStorage";
 
 const Stars = memo(({ rate }) => {
   return (
@@ -40,10 +42,16 @@ const Stars = memo(({ rate }) => {
 Stars.displayName = "Stars";
 
 const ProductDetail = ({ product }) => {
+  const [user, _] = useSessionStorage("user", {});
+  const username = !!user.username ? user.username : "";
+  const [cart, setCart] = useLocalStorage(`cart_${username}`, []);
   const [quantity, setQuantity] = useState(1);
 
   const onClickAdd = () => {
-    if (quantity + 1 > 10) return;
+    if (quantity + 1 > 10) {
+      alert("You cannot purchase more than 10.");
+      return;
+    }
     setQuantity((prev) => prev + 1);
   };
 
@@ -52,7 +60,37 @@ const ProductDetail = ({ product }) => {
     setQuantity((prev) => prev - 1);
   };
 
-  // TODO : 장바구니에 이미 등록되어 있다면 장바구니 추가 X
+  const onClickAddToCart = () => {
+    const index = cart.findIndex((v) => v.productId === product.id);
+    if (index === -1) {
+      setCart((prev) => [...prev, { productId: product.id, quantity }]);
+      return;
+    }
+    setCart(
+      cart.map((v) => {
+        if (v.productId === product.id) {
+          if (v.quantity + quantity) {
+            alert(
+              "You cannot purchase more than 10.\nOnly 10 will be added to the cart."
+            );
+            v.quantity = 10;
+          } else {
+            v.quantity += quantity;
+          }
+        }
+        return { ...v };
+      })
+    );
+    alert("Added to cart.");
+  };
+
+  const onClickBuy = () => {
+    alert("Your purchase has been processed.");
+    const index = cart.findIndex((v) => v.productId === product.id);
+    if (index === -1) return;
+    setCart([...cart.slice(0, index), ...cart.slice(index + 1)]);
+    alert("Identical products in the cart will be removed.");
+  };
 
   return (
     <>
@@ -99,12 +137,14 @@ const ProductDetail = ({ product }) => {
             <div className="mt-2 flex justify-end gap-3">
               <div className="self-end font-price md:text-lg">total</div>
               <div className="font-price text-xl md:text-2xl">
-                ${product.price * quantity}
+                ${(product.price * quantity).toFixed(2)}
               </div>
             </div>
             <div className="mt-4 flex h-10 gap-3">
-              <Button className="w-1/2">Add to Cart</Button>
-              <Button className="w-1/2" filled>
+              <Button className="w-1/2" onClick={onClickAddToCart}>
+                Add to Cart
+              </Button>
+              <Button className="w-1/2" filled onClick={onClickBuy}>
                 Buy
               </Button>
             </div>

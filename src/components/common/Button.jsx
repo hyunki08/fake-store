@@ -8,12 +8,20 @@ const config = {
 };
 
 const Button = memo(
-  ({ children, className, type, disabled = false, filled = false }) => {
+  ({
+    children,
+    className,
+    onClick,
+    type,
+    disabled = false,
+    filled = false,
+  }) => {
     return (
       <button
         className={`${className} ${filled ? config.filled : config.outline}`}
         type={type}
         disabled={disabled}
+        onClick={onClick}
       >
         {children}
       </button>
