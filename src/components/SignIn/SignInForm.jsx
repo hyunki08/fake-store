@@ -1,31 +1,57 @@
 import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
 import Input from "../common/Input";
 import Line from "./../common/Line";
 import Logo from "./../common/Logo";
+import Button from "./../common/Button";
+import { useSessionStorage } from "../../hooks/useSessionStorage";
+import { useNavigate } from "react-router-dom";
 
 const SignInForm = () => {
+  const [_, setUser] = useSessionStorage("user", {});
+  const [disabled, setDisabled] = useState(false);
   const [userId, setUserId] = useState("");
+  const [idInputError, setIdInputError] = useState(false);
   const [userPw, setUserPw] = useState("");
+  const [pwInputError, setPwInputError] = useState(false);
+  const navigate = useNavigate();
 
   const onChangeId = useCallback((e) => {
+    setIdInputError(false);
     setUserId(e.target.value);
   }, []);
 
   const onChangePw = useCallback((e) => {
+    setPwInputError(false);
     setUserPw(e.target.value);
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (userId.length < 4) {
+      setIdInputError(true);
+      return;
+    }
+    if (userPw.length < 4) {
+      setPwInputError(true);
+      return;
+    }
+
+    setDisabled(true);
+
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
     const res = await fetch("https://fakestoreapi.com/auth/login", {
       method: "POST",
       body: JSON.stringify({
         username: "mor_2314",
         password: "83r5^_",
       }),
+      headers: headers,
     }).then((res) => res.json());
-    console.log(res);
+
+    setUser({ ...res, username: userId });
+    navigate(-1);
   };
 
   return (
@@ -35,7 +61,13 @@ const SignInForm = () => {
       </div>
       <form onSubmit={handleSubmit}>
         <div className="relative mt-12 h-[56px]">
-          <Input type="text" name="ID" value={userId} onChange={onChangeId} />
+          <Input
+            type="text"
+            name="ID"
+            value={userId}
+            onChange={onChangeId}
+            error={idInputError}
+          />
         </div>
         <div className="relative mt-6 h-[56px]">
           <Input
@@ -43,16 +75,17 @@ const SignInForm = () => {
             name="password"
             value={userPw}
             onChange={onChangePw}
+            error={pwInputError}
           />
         </div>
-        <button className="mt-6 h-12 w-full rounded-full bg-[rgb(138,207,237)] transition-all hover:bg-[rgb(54,97,235)] hover:text-[rgb(240,240,240)] md:text-lg">
+        <Button className="mt-6 h-12 w-full" filled disabled={disabled}>
           Sign In
-        </button>
+        </Button>
       </form>
       <Line className="mt-6" />
-      <button className="mt-6 h-12 w-full rounded-full border-2 border-solid border-[rgb(180,180,180)] transition-all hover:border-none hover:bg-[rgb(54,97,235)] hover:text-[rgb(240,240,240)]">
+      <Button className="mt-6 h-12 w-full" disabled={disabled}>
         Sign Up
-      </button>
+      </Button>
     </div>
   );
 };

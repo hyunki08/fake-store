@@ -2,8 +2,15 @@ import { Menu, ShoppingCart } from "@mui/icons-material";
 import { NavMenu } from "../../constants/Nav";
 import { Link } from "react-router-dom";
 import Logo from "./../common/Logo";
+import { useSessionStorage } from "../../hooks/useSessionStorage";
 
 const Header = () => {
+  const [user, setUser] = useSessionStorage("user", {});
+
+  const hadleSignOut = () => {
+    setUser({});
+  };
+
   return (
     <header className="sticky top-0 z-10 w-full bg-white md:top-[-36px]">
       <div className="flex flex-col">
@@ -11,11 +18,18 @@ const Header = () => {
         <div className="mx-auto hidden h-9 w-full max-w-[1100px] px-[2%] md:flex md:items-center md:justify-end">
           <Link
             to={"/signin"}
-            className="cursor-pointer p-2 text-sm transition-all hover:text-[rgb(100,100,100)]"
+            className={`cursor-pointer p-2 text-sm transition-all hover:text-[rgb(100,100,100)] ${
+              Object.keys(user).length > 0 ? "hidden" : ""
+            }`}
           >
             Sign In
           </Link>
-          <div className="hidden cursor-pointer p-2 text-sm transition-all hover:text-[rgb(100,100,100)]">
+          <div
+            className={`cursor-pointer p-2 text-sm transition-all hover:text-[rgb(100,100,100)] ${
+              Object.keys(user).length > 0 ? "" : "hidden"
+            }`}
+            onClick={hadleSignOut}
+          >
             Sign Out
           </div>
         </div>
