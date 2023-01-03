@@ -78,6 +78,7 @@ const CartList = ({
           className="mt-6 h-12 w-full md:text-lg"
           filled
           onClick={onClickCheckout}
+          disabled={products.length === 0 || cartData.length === 0}
         >
           Checkout
         </Button>
