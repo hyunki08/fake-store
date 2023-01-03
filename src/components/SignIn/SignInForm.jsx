@@ -32,7 +32,7 @@ const SignInForm = ({
         <div className="relative mt-6 h-[56px]">
           <Input
             type="password"
-            name="password"
+            name="Password"
             value={userPw}
             onChange={onChangePw}
             error={pwInputError}
